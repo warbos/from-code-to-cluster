@@ -1,7 +1,7 @@
 variable "region" {
   description = "Région AWS"
   type        = string
-  default     = "eu-north-1" # J'ai mis ta région actuelle au vu de tes logs précédents
+  default     = "eu-north-1"
 }
 
 variable "instance_type" {

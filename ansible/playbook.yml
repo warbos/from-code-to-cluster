@@ -1,0 +1,25 @@
+---
+- name: Préparer le serveur et installer K3S
+  hosts: web
+  become: true
+  tasks:
+    - name: Mettre à jour le cache APT et les paquets
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Installer curl
+      apt:
+        name: curl
+        state: present
+
+    - name: Installer K3s
+      shell: curl -sfL https://get.k3s.io | sh -
+      args:
+        creates: /usr/local/bin/k3s
+
+    - name: Vérifier que le service K3s est actif
+      systemd:
+        name: k3s
+        state: started
+        enabled: yes
