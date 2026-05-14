@@ -1,0 +1,43 @@
+body {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.container {
+    background-color: #252526;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border-left: 5px solid #007acc;
+    max-width: 650px;
+    width: 100%;
+}
+.header {
+    text-align: center;
+    border-bottom: 1px solid #333;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+h1 { color: #569cd6; margin: 0; }
+h2 { color: #4ec9b0; font-size: 1.2em; font-weight: normal; }
+h3 { color: #ce9178; }
+ul { list-style-type: square; line-height: 1.8; }
+.highlight {
+    background-color: #007acc;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+.message {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #1e1e1e;
+    border-left: 3px solid #c586c0;
+    font-style: italic;
+}

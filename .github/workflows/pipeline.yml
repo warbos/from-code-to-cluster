@@ -1,0 +1,27 @@
+name: From Code to Registry
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # Autorisation obligatoire pour pousser l'image
+
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v3
+
+      - name: Connexion au GitHub Container Registry (GHCR)
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Construction de l'image avec Podman
+        run: |
+          cd app
+          podman build -t ghcr.io/${{ github.repository_owner }}/portfolio-devops:v1 .
+
+      - name: Envoi de l'image
+        run: podman push ghcr.io/${{ github.repository_owner }}/portfolio-devops:v1

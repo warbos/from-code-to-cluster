@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio DevOps - Morgan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Morgan</h1>
+            <h2>Junior IT Cloud Support & DevOps</h2>
+        </div>
+        
+        <div class="info-box">
+            <h3>Informations de Déploiement (From Code to Cluster)</h3>
+            <ul>
+                <li><strong>Version de l'App :</strong> v1.0.0</li>
+                <li><strong>Déployé le :</strong> <span id="date-container"></span></li>
+                <li><strong>Hébergé sur le Pod :</strong> <span class="highlight">__POD_NAME__</span></li>
+            </ul>
+        </div>
+
+        <div class="message">
+            <p>🚀 Application conteneurisée avec Podman, infrastructure provisionnée par Terraform, configurée via Ansible et orchestrée sur K3s.</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+FROM docker.io/nginx:alpine
+
+# Copie des fichiers
+COPY index.html /usr/share/nginx/html/index.html
+COPY style.css /usr/share/nginx/html/style.css
+COPY script.js /usr/share/nginx/html/script.js
+
+# On expose le port 80
+EXPOSE 80
+
+# La commande de démarrage qui remplace la balise par le vrai nom d'hôte
+CMD ["/bin/sh", "-c", "sed -i 's/__POD_NAME__/'\"$HOSTNAME\"'/g' /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"]
