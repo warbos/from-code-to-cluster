@@ -1,8 +1,19 @@
 ---
-- name: Préparer le serveur et installer K3S
+- name: Préparer le serveur, installer K3S et déployer l'App
   hosts: web
   become: true
   tasks:
+#On récupère l'ID du code
+    - name: Récupérer le Short SHA localement depuis Git
+      local_action: command git rev-parse --short HEAD
+      register: git_sha
+      become: false
+      changed_when: false
+
+#On attend que le système AWS soit prêt
+    - name: Attendre le déverrouillage de APT (Sécurité AWS)
+      raw: while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do sleep 5; done;
+
     - name: Mettre à jour le cache APT et les paquets
       apt:
         update_cache: yes
@@ -18,8 +29,29 @@
       args:
         creates: /usr/local/bin/k3s
 
-    - name: Vérifier que le service K3s est actif
-      systemd:
-        name: k3s
-        state: started
-        enabled: yes
+    - name: Créer un dossier pour les manifestes K8s
+      file:
+        path: /home/ubuntu/k8s-manifests
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+
+    - name: Copier les fichiers de déploiement et de service
+      copy:
+        src: "../k8s/{{ item }}"
+        dest: "/home/ubuntu/k8s-manifests/{{ item }}"
+      loop:
+        - deployment.yaml
+        - service.yaml
+
+#On injecte la version dynamique
+    - name: Injecter la bonne version de l'image dans le manifeste
+      replace:
+        path: /home/ubuntu/k8s-manifests/deployment.yaml
+        regexp: '__VERSION__'
+        replace: "{{ git_sha.stdout }}"
+
+    - name: Appliquer les manifestes Kubernetes
+      shell: k3s kubectl apply -f /home/ubuntu/k8s-manifests/
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml

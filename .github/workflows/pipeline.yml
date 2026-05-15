@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write # Autorisation obligatoire pour pousser l'image
+      packages: write
 
     steps:
       - name: Récupération du code
@@ -18,10 +18,13 @@ jobs:
       - name: Connexion au GitHub Container Registry (GHCR)
         run: echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io -u ${{ github.actor }} --password-stdin
 
+      - name: Générer le Short SHA
+        run: echo "SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
+
       - name: Construction de l'image avec Podman
         run: |
           cd app
-          podman build -t ghcr.io/${{ github.repository_owner }}/portfolio-devops:${{ github.sha }} .
+          podman build -t ghcr.io/${{ github.repository_owner }}/portfolio-devops:${{ env.SHORT_SHA }} .
 
       - name: Envoi de l'image
-        run: podman push ghcr.io/${{ github.repository_owner }}/portfolio-devops:${{ github.sha }}
+        run: podman push ghcr.io/${{ github.repository_owner }}/portfolio-devops:${{ env.SHORT_SHA }}

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portfolio-devops
+  labels:
+    app: portfolio
+spec:
+  replicas: 2 # 2 pods pour la haute disponibilité
+  selector:
+    matchLabels:
+      app: portfolio
+  template:
+    metadata:
+      labels:
+        app: portfolio
+    spec:
+      containers:
+      - name: portfolio-app
+        image: ghcr.io/warbos/portfolio-devops:__VERSION__ # image publique sur mon GitHub
+        ports:
+        - containerPort: 80
