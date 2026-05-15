@@ -71,3 +71,20 @@ resource "local_file" "ansible_inventory" {
   content  = "[web]\n${aws_instance.vm.public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/exam_key"
   filename = "../ansible/inventory.ini"
 }
+
+#On demande à Terraform de trouver les infos de la zone DNS existante
+data "aws_route53_zone" "selected" {
+  name         = "x73-e6k.com."
+  private_zone = false
+}
+
+#On crée l'enregistrement de type A
+resource "aws_route53_record" "www" {
+  zone_id = data.aws_route53_zone.selected.zone_id
+  name    = "morgan.x73-e6k.com" # Ou juste "x73-e6k.com" selon ton choix
+  type    = "A"
+  ttl     = "300"
+  
+  #On lie l'enregistrement à l'IP publique de la VM
+  records = [aws_instance.vm.public_ip]
+}

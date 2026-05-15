@@ -43,6 +43,7 @@
       loop:
         - deployment.yaml
         - service.yaml
+        - ingress.yaml
 
 #On injecte la version dynamique
     - name: Injecter la bonne version de l'image dans le manifeste

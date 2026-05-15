@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portfolio-ingress
+  annotations:
+    # On précise à K3s d'utiliser Traefik (le contrôleur par défaut)
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: morgan.x73-e6k.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            # Doit correspondre au 'name' dans ton service.yaml
+            name: portfolio-service
+            port:
+              number: 80
