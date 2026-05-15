@@ -52,6 +52,7 @@ from-code-to-cluster/
 ├── .gitignore               # Fichiers exclus du versioning (ex: *.tfstate, secrets)
 └── README.md                # Documentation principale du projet
 (Note : Les fichiers d'état locaux de Terraform comme terraform.tfstate sont générés à l'exécution mais exclus du dépôt distant via le .gitignore pour des raisons de sécurité).
+```
 
 ⚙️ Prérequis
 Pour lancer ce projet depuis une "Management Station", les éléments suivants sont requis :
