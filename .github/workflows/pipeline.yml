@@ -21,7 +21,7 @@ jobs:
       - name: Construction de l'image avec Podman
         run: |
           cd app
-          podman build -t ghcr.io/${{ github.repository_owner }}/portfolio-devops:v1 .
+          podman build -t ghcr.io/${{ github.repository_owner }}/portfolio-devops:${{ github.sha }} .
 
       - name: Envoi de l'image
-        run: podman push ghcr.io/${{ github.repository_owner }}/portfolio-devops:v1
+        run: podman push ghcr.io/${{ github.repository_owner }}/portfolio-devops:${{ github.sha }}
