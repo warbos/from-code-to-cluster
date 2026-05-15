@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: portfolio-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: portfolio
   ports:
