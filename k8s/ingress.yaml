@@ -5,7 +5,14 @@ metadata:
   annotations:
     # On précise à K3s d'utiliser Traefik (le contrôleur par défaut)
     kubernetes.io/ingress.class: traefik
+    # On appelle notre ClusterIssuer
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
+  # On active la sécurisation TLS (HTTPS)
+  tls:
+  - hosts:
+    - morgan.x73-e6k.com
+    secretName: portfolio-tls-secret
   rules:
   - host: morgan.x73-e6k.com
     http:

@@ -36,6 +36,12 @@
         owner: ubuntu
         group: ubuntu
 
+    - name: Installer Cert-Manager sur Kubernetes
+      shell: k3s kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml
+
+    - name: Attendre que Cert-Manager soit prêt (environ 30-60s)
+      shell: k3s kubectl wait --for=condition=Available deployment --all -n cert-manager --timeout=300s
+
     - name: Copier les fichiers de déploiement et de service
       copy:
         src: "../k8s/{{ item }}"
@@ -44,6 +50,7 @@
         - deployment.yaml
         - service.yaml
         - ingress.yaml
+        - cluster-issuer.yaml
 
 #On injecte la version dynamique
     - name: Injecter la bonne version de l'image dans le manifeste
